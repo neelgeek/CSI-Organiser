@@ -1,8 +1,3 @@
 Neel
 Yash
-<<<<<<< HEAD
 
-Monis
-=======
-Dhanesh
->>>>>>> c980e89cb3fad0b99a953a257d45e815fab0841d
