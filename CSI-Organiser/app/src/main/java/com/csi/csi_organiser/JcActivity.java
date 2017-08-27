@@ -1,6 +1,7 @@
 package com.csi.csi_organiser;
 
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -21,12 +22,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class JcActivity extends AppCompatActivity {
-    Button createtask;
+    Button createtask,exit;
     ListView tasklist;
     ArrayList<TaskModel> tasks;
     ArrayList<String> tasksstring;
     DatabaseReference firebase;
     ArrayAdapter<String> arrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,7 @@ public class JcActivity extends AppCompatActivity {
         tasksstring= new ArrayList<>();
         createtask= (Button)findViewById(R.id.createtask);
         tasklist=(ListView)findViewById(R.id.tasklist);
+        exit=(Button)findViewById(R.id.exit);
         firebase= FirebaseDatabase.getInstance().getReference("Tasks");
         arrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,tasksstring);
         tasklist.setAdapter(arrayAdapter);
@@ -51,7 +54,12 @@ public class JcActivity extends AppCompatActivity {
 
             }
         });
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
     public void showCreateTaskDialog()
     {
@@ -118,5 +126,12 @@ public class JcActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
+
 }
 

@@ -109,7 +109,7 @@ public class HomeActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int length=email.getText().toString().length();
+             /*   int length=email.getText().toString().length();
 
                 if(firstname.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || email.getText().toString().isEmpty() || number.getText().toString().isEmpty() || neareststation.getText().toString().isEmpty() || rollno.getText().toString().isEmpty())
                 {
@@ -134,7 +134,8 @@ public class HomeActivity extends AppCompatActivity {
                 else {
                     showConformationDialouge();
                 }
-
+*/Intent intent= new Intent(HomeActivity.this,JcActivity.class);
+                startActivity(intent);
 
             }
         });
