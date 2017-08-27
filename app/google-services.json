@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "281533057404",
+    "firebase_url": "https://csi-organiser.firebaseio.com",
+    "project_id": "csi-organiser",
+    "storage_bucket": "csi-organiser.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281533057404:android:8828a9741a4d7a75",
+        "android_client_info": {
+          "package_name": "com.csi.csi_organiser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281533057404-jif888n9mh62tm0u090djc9n2ebtmmfp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csi.csi_organiser",
+            "certificate_hash": "21212f588d4b207773e7310b79384043bc06cfeb"
+          }
+        },
+        {
+          "client_id": "281533057404-rj5tpf740thtdpe12pjj0l9e5p0u8edv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfTDHBpViE6IYh_ZX-nR7AAbCR7ZL-zAk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281533057404-rj5tpf740thtdpe12pjj0l9e5p0u8edv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
