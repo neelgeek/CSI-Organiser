@@ -3,6 +3,7 @@ package com.csi.csi_organiser;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ public class Members extends AppCompatActivity {
     private Button mYesBtn;
     private Button mNoBtn;
     private Button mSubmitBtn;
+    Toolbar toolbar;
     SQLiteHelper db;
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mDatabase;
@@ -33,12 +35,15 @@ public class Members extends AppCompatActivity {
         mTaskDesc = (TextView) findViewById(R.id.taskDesc);
         mYesBtn= (Button) findViewById(R.id.yesBtn);
         db=new SQLiteHelper(this);
-
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("TASK MANAGER");
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        db = new SQLiteHelper(this);
         mNoBtn = (Button) findViewById(R.id.noBtn);
         mSubmitBtn = (Button) findViewById(R.id.submitBtn);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Task");
         mDatabase= FirebaseDatabase.getInstance().getReference();
-      /*  mDatabaseReference.addValueEventListener(new ValueEventListener() {
+       /* mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mTaskDesc.setText(dataSnapshot.getValue().toString());

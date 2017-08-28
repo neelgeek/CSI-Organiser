@@ -7,6 +7,7 @@ import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseReference firebase,firebaserole;
     ArrayList<Model> memlist;
     ArrayList<Model2> rolelist;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +46,11 @@ public class HomeActivity extends AppCompatActivity {
         ///
         memlist= new ArrayList<>();
         rolelist=new ArrayList<>();
-
-
         ///
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("SIGN UP!");
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
         db = new SQLiteHelper(this);
         lastname= (EditText)findViewById(R.id.lastname);
         email= (EditText)findViewById(R.id.email);
