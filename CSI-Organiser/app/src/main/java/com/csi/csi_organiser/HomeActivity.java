@@ -7,7 +7,6 @@ import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,11 +33,9 @@ public class HomeActivity extends AppCompatActivity {
     String preference1, preference2, preference3;
     Button submit;
     SQLiteHelper db;
-=======
     DatabaseReference firebase,firebaserole;
     ArrayList<Model> memlist;
     ArrayList<Model2> rolelist;
-    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +44,9 @@ public class HomeActivity extends AppCompatActivity {
         ///
         memlist= new ArrayList<>();
         rolelist=new ArrayList<>();
+
+
         ///
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("SIGN UP!");
-        toolbar.setTitleTextColor(0xFFFFFFFF);
-        setSupportActionBar(toolbar);
         db = new SQLiteHelper(this);
         lastname= (EditText)findViewById(R.id.lastname);
         email= (EditText)findViewById(R.id.email);
@@ -224,6 +219,7 @@ public class HomeActivity extends AppCompatActivity {
                             Toast.makeText(HomeActivity.this,"You are a committee member.",Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     db.addInfo(model.getCurrenttask(), model.getName(),model.getEmail(),
                             model.getNumber(),model.getNeareststation(),model.getNumberoftasks(),
                             model.getPreference1(),model.getPreference2(),model.getPreference3(),
@@ -235,17 +231,7 @@ public class HomeActivity extends AppCompatActivity {
                         ////put intent to core member activity
                         //Intent intent= new Intent(HomeActivity.this,CoreActivity.class);
                         //startActivity(intent);
-                    String Id= firebase.push().getKey();
-                    firebase.child(Id).setValue(model);
-                    alertDialog.dismiss();
-                    Toast.makeText(HomeActivity.this,"DATA ENTRY SUCCESSFUL, WELCOME!",Toast.LENGTH_SHORT).show();
-                    Intent Signin = new Intent(HomeActivity.this,GSignin.class);
-                    startActivity(Signin);
 
-
-                    if(model.getPriority().matches("1"))
-                    {
-                        ////put intent to core member activity
                     }
                     else if(model.getPriority().matches("2"))
                     {
@@ -261,7 +247,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     Toast.makeText(HomeActivity.this,"DATA ENTRY SUCCESSFUL, WELCOME!",Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
-                  }
+
                 }
             }
         });
@@ -339,3 +325,4 @@ Intent intent = new Intent(Intent.ACTION_SEND);
 
  //////////////////////////////////////
 */
+

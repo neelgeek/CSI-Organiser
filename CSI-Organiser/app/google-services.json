@@ -1,34 +1,20 @@
 {
   "project_info": {
-<<<<<<< HEAD
     "project_number": "603897480390",
     "firebase_url": "https://collaboration-d1742.firebaseio.com",
     "project_id": "collaboration-d1742",
     "storage_bucket": "collaboration-d1742.appspot.com"
-=======
-    "project_number": "281533057404",
-    "firebase_url": "https://csi-organiser.firebaseio.com",
-    "project_id": "csi-organiser",
-    "storage_bucket": "csi-organiser.appspot.com"
->>>>>>> refs/remotes/origin/authentication
   },
   "client": [
     {
       "client_info": {
-<<<<<<< HEAD
         "mobilesdk_app_id": "1:603897480390:android:40a34cd9d1550978",
         "android_client_info": {
           "package_name": "com.example.collab"
-=======
-        "mobilesdk_app_id": "1:281533057404:android:8828a9741a4d7a75",
-        "android_client_info": {
-          "package_name": "com.csi.csi_organiser"
->>>>>>> refs/remotes/origin/authentication
         }
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
           "client_id": "603897480390-7frht7tq4tdknk93och14vme40um3kc2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -38,27 +24,12 @@
         },
         {
           "client_id": "603897480390-lpe8e0jkim0kaf276gu8n16idh2rosn4.apps.googleusercontent.com",
-=======
-          "client_id": "281533057404-jif888n9mh62tm0u090djc9n2ebtmmfp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.csi.csi_organiser",
-            "certificate_hash": "21212f588d4b207773e7310b79384043bc06cfeb"
-          }
-        },
-        {
-          "client_id": "281533057404-rj5tpf740thtdpe12pjj0l9e5p0u8edv.apps.googleusercontent.com",
->>>>>>> refs/remotes/origin/authentication
           "client_type": 3
         }
       ],
       "api_key": [
         {
-<<<<<<< HEAD
           "current_key": "AIzaSyDI9bpb4WiPI8kTIL5kBLjib5OENhY9jO0"
-=======
-          "current_key": "AIzaSyDfTDHBpViE6IYh_ZX-nR7AAbCR7ZL-zAk"
->>>>>>> refs/remotes/origin/authentication
         }
       ],
       "services": {
@@ -69,11 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-<<<<<<< HEAD
               "client_id": "603897480390-lpe8e0jkim0kaf276gu8n16idh2rosn4.apps.googleusercontent.com",
-=======
-              "client_id": "281533057404-rj5tpf740thtdpe12pjj0l9e5p0u8edv.apps.googleusercontent.com",
->>>>>>> refs/remotes/origin/authentication
               "client_type": 3
             }
           ]
@@ -82,7 +49,6 @@
           "status": 2
         }
       }
-<<<<<<< HEAD
     },
     {
       "client_info": {
@@ -114,8 +80,6 @@
           "status": 2
         }
       }
-=======
->>>>>>> refs/remotes/origin/authentication
     }
   ],
   "configuration_version": "1"

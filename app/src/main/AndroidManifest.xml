@@ -22,6 +22,12 @@
         </activity>
         <activity android:name=".GSignin">
         </activity>
+        <activity android:name=".Members" />
+        <activity android:name=".JcActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
