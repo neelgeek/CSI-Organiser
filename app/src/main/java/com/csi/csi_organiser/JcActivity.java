@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ public class JcActivity extends AppCompatActivity {
     ListView tasklist;
     ArrayList<TaskModel> tasks;
     TextView welcome;
+    Toolbar toolbar;
     ArrayList<String> tasksstring;
     DatabaseReference firebase;
     SQLiteHelper db;
@@ -39,6 +41,11 @@ public class JcActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jc);
         tasks= new ArrayList<>();
         tasksstring= new ArrayList<>();
+
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("TASK MANAGER");
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
         db = new SQLiteHelper(this);
         createtask= (Button)findViewById(R.id.createtask);
         tasklist=(ListView)findViewById(R.id.tasklist);

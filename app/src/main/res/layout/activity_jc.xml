@@ -4,11 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:orientation="vertical"
     android:background="@drawable/colorshade"
     tools:context="com.csi.csi_organiser.HomeActivity"
-    android:weightSum="1">
+   >
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/actionbar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:padding="16dp"
+        android:orientation="vertical"
+        >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +62,6 @@
            android:id="@+id/exit"
            />
    </LinearLayout>
-
+    </LinearLayout>
 
 </LinearLayout>
