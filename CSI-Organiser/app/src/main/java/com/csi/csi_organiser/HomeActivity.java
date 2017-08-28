@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         team2.setAdapter(teams);
         team3.setAdapter(teams);
         HashMap<String,String> users=db.getAllValues();
-        
+
         if(getIntent().getBooleanExtra("EXIT",false))
         {
             finish();
@@ -77,8 +77,7 @@ public class HomeActivity extends AppCompatActivity {
           {
               //Intent intent= new Intent(HomeActivity.this,CoreActivity.class);
               //startActivity(intent);
-              Intent intent= new Intent(HomeActivity.this,JcActivity.class);
-              startActivity(intent);
+
           }
           else if(users.get("priority").matches("2"))
           {
@@ -231,8 +230,7 @@ public class HomeActivity extends AppCompatActivity {
                         ////put intent to core member activity
                         //Intent intent= new Intent(HomeActivity.this,CoreActivity.class);
                         //startActivity(intent);
-                        Intent intent= new Intent(HomeActivity.this,JcActivity.class);
-                        startActivity(intent);
+
                     }
                     else if(model.getPriority().matches("2"))
                     {
