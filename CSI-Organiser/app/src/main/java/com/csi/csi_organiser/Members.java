@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +20,7 @@ public class Members extends AppCompatActivity {
     private Button mYesBtn;
     private Button mNoBtn;
     private Button mSubmitBtn;
+    SQLiteHelper db;
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mDatabase;
 
@@ -29,6 +31,8 @@ public class Members extends AppCompatActivity {
         mReasonBox = (EditText) findViewById(R.id.reasonBox);
         mTaskDesc = (TextView) findViewById(R.id.taskDesc);
         mYesBtn= (Button) findViewById(R.id.yesBtn);
+        db=new SQLiteHelper(this);
+
         mNoBtn = (Button) findViewById(R.id.noBtn);
         mSubmitBtn = (Button) findViewById(R.id.submitBtn);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Task");
@@ -45,6 +49,7 @@ public class Members extends AppCompatActivity {
             }
 
         });*/
+      Toast.makeText(Members.this,db.getAllValues().get("name"),Toast.LENGTH_SHORT).show();
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
