@@ -1,11 +1,11 @@
 package com.csi.csi_organiser;
 
 /**
- * Created by Anurag on 25-08-2017.
+ * Created by montur on 8/27/2017.
  */
 
 public class Model {
-     public String Id;
+    public String Id;
     public String name;
     public String email;
     public String number;
@@ -19,16 +19,16 @@ public class Model {
     public int numberoftasks=0;
 
     public void setValue(String name, String email, String number, String neareststation, String rollno, String preference1, String preference2, String preference3)
-     {
-       this.email=email;
+    {
+        this.email=email;
         this.name=name;
-          this.number=number;
-          this.rollno=rollno;
-          this.preference1=preference1;
-          this.preference2=preference2;
-          this.preference3=preference3;
-          this.neareststation=neareststation;
-     }
+        this.number=number;
+        this.rollno=rollno;
+        this.preference1=preference1;
+        this.preference2=preference2;
+        this.preference3=preference3;
+        this.neareststation=neareststation;
+    }
 
     public String getName() {
         return name;

@@ -51,6 +51,8 @@ public class Members extends AppCompatActivity {
 
         });*/
       Toast.makeText(Members.this,db.getAllValues().get("name"),Toast.LENGTH_SHORT).show();
+        }
+
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

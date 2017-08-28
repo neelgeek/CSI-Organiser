@@ -1,9 +1,8 @@
 package com.csi.csi_organiser;
 
 /**
- * Created by Anurag on 25-08-2017.
+ * Created by montur on 8/27/2017.
  */
-
 public class Model2 {
     public  String rollno;
     public String number;
