@@ -1,5 +1,6 @@
 package com.csi.csi_organiser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +27,10 @@ public class JcActivity extends AppCompatActivity {
     Button createtask,exit;
     ListView tasklist;
     ArrayList<TaskModel> tasks;
+    TextView welcome;
     ArrayList<String> tasksstring;
     DatabaseReference firebase;
+    SQLiteHelper db;
     ArrayAdapter<String> arrayAdapter;
 
     @Override
@@ -35,9 +39,12 @@ public class JcActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jc);
         tasks= new ArrayList<>();
         tasksstring= new ArrayList<>();
+        db = new SQLiteHelper(this);
         createtask= (Button)findViewById(R.id.createtask);
         tasklist=(ListView)findViewById(R.id.tasklist);
         exit=(Button)findViewById(R.id.exit);
+        welcome=(TextView)findViewById(R.id.welcome);
+        welcome.setText("WELCOME "+db.getAllValues().get("name").toUpperCase());
         firebase= FirebaseDatabase.getInstance().getReference("Tasks");
         arrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,tasksstring);
         tasklist.setAdapter(arrayAdapter);
@@ -57,7 +64,10 @@ public class JcActivity extends AppCompatActivity {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(JcActivity.this,HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
             }
         });
     }

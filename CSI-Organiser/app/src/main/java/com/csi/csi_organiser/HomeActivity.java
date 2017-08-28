@@ -3,6 +3,7 @@ package com.csi.csi_organiser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,12 +25,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity {
     EditText firstname, lastname,email, number,rollno, neareststation;
     Spinner team1, team2, team3;
     String preference1, preference2, preference3;
     Button submit;
+    SQLiteHelper db;
     DatabaseReference firebase,firebaserole;
     ArrayList<Model> memlist;
     ArrayList<Model2> rolelist;
@@ -41,7 +44,10 @@ public class HomeActivity extends AppCompatActivity {
         ///
         memlist= new ArrayList<>();
         rolelist=new ArrayList<>();
+
+
         ///
+        db = new SQLiteHelper(this);
         lastname= (EditText)findViewById(R.id.lastname);
         email= (EditText)findViewById(R.id.email);
         rollno=(EditText)findViewById(R.id.rollno);
@@ -58,7 +64,33 @@ public class HomeActivity extends AppCompatActivity {
         team1.setAdapter(teams);
         team2.setAdapter(teams);
         team3.setAdapter(teams);
-
+        HashMap<String,String> users=db.getAllValues();
+        
+        if(getIntent().getBooleanExtra("EXIT",false))
+        {
+            finish();
+        }
+        else if(!users.isEmpty())
+        {
+          Toast.makeText(HomeActivity.this,"There is a current User!",Toast.LENGTH_LONG).show();
+          if(users.get("priority").matches("1"))
+          {
+              //Intent intent= new Intent(HomeActivity.this,CoreActivity.class);
+              //startActivity(intent);
+              Intent intent= new Intent(HomeActivity.this,JcActivity.class);
+              startActivity(intent);
+          }
+          else if(users.get("priority").matches("2"))
+          {
+              Intent intent= new Intent(HomeActivity.this,JcActivity.class);
+              startActivity(intent);
+          }
+          else
+          {
+              Intent intent =new Intent(HomeActivity.this,Members.class);
+              startActivity(intent);
+          }
+        }
         team1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -109,9 +141,9 @@ public class HomeActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /*   int length=email.getText().toString().length();
+            int length=email.getText().toString().length();
 
-                if(firstname.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || email.getText().toString().isEmpty() || number.getText().toString().isEmpty() || neareststation.getText().toString().isEmpty() || rollno.getText().toString().isEmpty())
+              if(firstname.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || email.getText().toString().isEmpty() || number.getText().toString().isEmpty() || neareststation.getText().toString().isEmpty() || rollno.getText().toString().isEmpty())
                 {
                     Toast.makeText(HomeActivity.this,"Could not submit:\nOne or multiple empty fields.",Toast.LENGTH_LONG).show();
                 }
@@ -133,9 +165,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else {
                     showConformationDialouge();
-                }
-*/Intent intent= new Intent(HomeActivity.this,JcActivity.class);
-                startActivity(intent);
+                    }
 
             }
         });
@@ -190,12 +220,19 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
 
-
+                    db.addInfo(model.getCurrenttask(), model.getName(),model.getEmail(),
+                            model.getNumber(),model.getNeareststation(),model.getNumberoftasks(),
+                            model.getPreference1(),model.getPreference2(),model.getPreference3(),
+                            model.getPriority(),model.getRollno());
                     String Id= firebase.push().getKey();
                     firebase.child(Id).setValue(model);
                     if(model.getPriority().matches("1"))
                     {
                         ////put intent to core member activity
+                        //Intent intent= new Intent(HomeActivity.this,CoreActivity.class);
+                        //startActivity(intent);
+                        Intent intent= new Intent(HomeActivity.this,JcActivity.class);
+                        startActivity(intent);
                     }
                     else if(model.getPriority().matches("2"))
                     {
@@ -206,6 +243,8 @@ public class HomeActivity extends AppCompatActivity {
                     else
                     {
                         //put intent to intent to normal member activity
+                        Intent intent =new Intent(HomeActivity.this,Members.class);
+                        startActivity(intent);
                     }
                     Toast.makeText(HomeActivity.this,"DATA ENTRY SUCCESSFUL, WELCOME!",Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
@@ -252,6 +291,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 }

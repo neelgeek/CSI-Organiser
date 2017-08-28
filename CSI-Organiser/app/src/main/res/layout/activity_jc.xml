@@ -9,7 +9,13 @@
     android:background="@drawable/colorshade"
     tools:context="com.csi.csi_organiser.HomeActivity"
     android:weightSum="1">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/welcome"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        />
 
     <TextView
         android:layout_width="match_parent"
