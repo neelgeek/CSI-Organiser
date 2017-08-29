@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,9 +45,9 @@ public class JcActivity extends AppCompatActivity {
         tasksstring= new ArrayList<>();
 
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("TASK MANAGER");
-        toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("TASK MANAGER");
+
         db = new SQLiteHelper(this);
         createtask= (Button)findViewById(R.id.createtask);
         tasklist=(ListView)findViewById(R.id.tasklist);
@@ -71,7 +73,7 @@ public class JcActivity extends AppCompatActivity {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JcActivity.this,HomeActivity.class);
+                Intent intent = new Intent(JcActivity.this,MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
@@ -91,7 +93,7 @@ public class JcActivity extends AppCompatActivity {
         tasksubtitle=(EditText)createtaskview.findViewById(R.id.tasksubtitle);
         taskdetails=(EditText)createtaskview.findViewById(R.id.taskdetails);
         create=(Button)createtaskview.findViewById(R.id.create);
-        cancel=(Button)createtaskview.findViewById(R.id.create);
+        cancel=(Button)createtaskview.findViewById(R.id.cancel);
         final AlertDialog createtaskdialog=dialogbuilder.create();
         createtaskdialog.show();
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +150,26 @@ public class JcActivity extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                db.deleteUsers();
+                finish();
+                Intent intent = new Intent(JcActivity.this,HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
 

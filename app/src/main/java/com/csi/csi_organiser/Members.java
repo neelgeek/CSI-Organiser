@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,16 +36,16 @@ public class Members extends AppCompatActivity {
         setContentView(R.layout.activity_members);
         mReasonBox = (EditText) findViewById(R.id.reasonBox);
         mTaskDesc = (TextView) findViewById(R.id.taskDesc);
-        mYesBtn= (Button) findViewById(R.id.yesBtn);
-        db=new SQLiteHelper(this);
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("TASK MANAGER");
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+        mYesBtn = (Button) findViewById(R.id.yesBtn);
+        db = new SQLiteHelper(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("TASK MANAGER");
         db = new SQLiteHelper(this);
         mNoBtn = (Button) findViewById(R.id.noBtn);
         mSubmitBtn = (Button) findViewById(R.id.submitBtn);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Task");
-        mDatabase= FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
        /* mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -55,7 +58,8 @@ public class Members extends AppCompatActivity {
             }
 
         });*/
-      Toast.makeText(Members.this,db.getAllValues().get("name"),Toast.LENGTH_SHORT).show();
+        Toast.makeText(Members.this, db.getAllValues().get("name"), Toast.LENGTH_SHORT).show();
+
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,9 +78,34 @@ public class Members extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Members.this,HomeActivity.class);
+        Intent intent = new Intent(Members.this,MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("EXIT", true);
         startActivity(intent);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+      getMenuInflater().inflate(R.menu.main_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                db.deleteUsers();
+                finish();
+                Intent intent = new Intent(Members.this,HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
+
