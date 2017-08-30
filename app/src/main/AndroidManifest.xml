@@ -22,8 +22,7 @@
         </activity>
         <activity android:name=".GSignin">
         </activity>
-        <activity android:name=".JcActivity" />
-
+        <activity android:name=".JcActivity"/>
     </application>
 
 </manifest>
