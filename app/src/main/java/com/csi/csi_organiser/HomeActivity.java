@@ -42,15 +42,18 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if(getIntent().getBooleanExtra("EXIT",false))
+        {
+            finish();
+        }
         firstname= (EditText)findViewById(R.id.firstname);
         ///
         memlist= new ArrayList<>();
         rolelist=new ArrayList<>();
         ///
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("SIGN UP!");
-        toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("SIGN UP");
         db = new SQLiteHelper(this);
         lastname= (EditText)findViewById(R.id.lastname);
         email= (EditText)findViewById(R.id.email);
@@ -125,7 +128,11 @@ public class HomeActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 int length=email.getText().toString().length();
+=======
+              int length=email.getText().toString().length();
+>>>>>>> refs/remotes/origin/ui
 
                 if(firstname.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || email.getText().toString().isEmpty() || number.getText().toString().isEmpty() || neareststation.getText().toString().isEmpty() || rollno.getText().toString().isEmpty())
                 {
@@ -210,6 +217,8 @@ public class HomeActivity extends AppCompatActivity {
                             model.getPriority(),model.getRollno());
                     String Id= firebase.push().getKey();
                     firebase.child(Id).setValue(model);
+                    memlist.clear();
+                    rolelist.clear();
                     if(model.getPriority().matches("1"))
                     {
                         ////put intent to core member activity
@@ -228,6 +237,7 @@ public class HomeActivity extends AppCompatActivity {
                         //put intent to intent to normal member activity
                         Intent intent =new Intent(HomeActivity.this,Members.class);
                         startActivity(intent);
+                        finish();
                     }
                     Toast.makeText(HomeActivity.this,"DATA ENTRY SUCCESSFUL, WELCOME!",Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();

@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,8 +39,8 @@ public class Members extends AppCompatActivity {
         mYesBtn = (Button) findViewById(R.id.yesBtn);
         db = new SQLiteHelper(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("TASK MANAGER");
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("TASK MANAGER");
         db = new SQLiteHelper(this);
         mNoBtn = (Button) findViewById(R.id.noBtn);
         mSubmitBtn = (Button) findViewById(R.id.submitBtn);
@@ -80,5 +83,28 @@ public class Members extends AppCompatActivity {
         intent.putExtra("EXIT", true);
         startActivity(intent);
     }
-}
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+      getMenuInflater().inflate(R.menu.main_menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                db.deleteUsers();
+                finish();
+                Intent intent = new Intent(Members.this,HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+}
