@@ -6,5 +6,9 @@
     <item
         android:id="@+id/editprofile"
         android:title="Edit Profile"
+        />
+    <item
+        android:id="@+id/viewattendence"
+        android:title="Attendence Sheet"
         />?
 </menu>

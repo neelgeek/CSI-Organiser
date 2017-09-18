@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.csi.csi_organiser">
+    package="com.csi.csi_organiser">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -9,21 +14,40 @@
         android:roundIcon="@drawable/photo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Members" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".GSignin">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Members">
-        </activity>
-        <activity android:name=".HomeActivity">
-        </activity>
-        <activity android:name=".GSignin">
-        </activity>
         <activity android:name=".JcActivity" />
+        <activity android:name=".EditProfile" />
+        <activity android:name=".NotifyActivity" />
+        <activity
+            android:name=".ViewMembersActivity"
+            android:label="@string/title_activity_view_members"
+            android:theme="@style/AppTheme" />
 
+        <service android:name=".NotifService" />
+
+        <receiver android:name=".NotiRec">
+            <intent-filter>
+                <action android:name="notify" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".NotifReceiver">
+            <intent-filter>
+                <action android:name="no" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".DateActivity" />
+        <activity android:name=".CoreActivity" />
+        <activity android:name=".CoretaskViewer"></activity>
     </application>
 
 </manifest>

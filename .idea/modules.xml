@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CSI-Organiser.iml" filepath="$PROJECT_DIR$/CSI-Organiser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CSIorganiserRefactored.iml" filepath="$PROJECT_DIR$/CSIorganiserRefactored.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

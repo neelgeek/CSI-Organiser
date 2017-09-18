@@ -2,15 +2,14 @@ package com.csi.csi_organiser;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Process;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Display;
+import android.text.Editable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,18 +27,28 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class HomeActivity extends AppCompatActivity {
-    EditText firstname, lastname,email, number,rollno, neareststation;
-    Spinner team1, team2, team3;
-    String preference1, preference2, preference3;
+    EditText firstname, lastname,email, number,rollno, neareststation,division;
+    Spinner team1, team2, team3,year;
+    String preference1;
+    String preference2;
+    String preference3;
+    String Year;
+    Editable Division;
     Button submit;
     SQLiteHelper db;
-    DatabaseReference firebase,firebaserole;
-    ArrayList<Model> memlist;
+    static ValueEventListener ve;
+    DatabaseReference firebaserole,firebase;
+    ArrayList<String> rollnolist;
     ArrayList<Model2> rolelist;
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ///
+        rollnolist= new ArrayList<>();
+        rolelist=new ArrayList<>();
+        ///
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         if(getIntent().getBooleanExtra("EXIT",false))
@@ -47,39 +56,54 @@ public class HomeActivity extends AppCompatActivity {
             finish();
         }
         firstname= (EditText)findViewById(R.id.firstname);
-        ///
-        memlist= new ArrayList<>();
-        rolelist=new ArrayList<>();
-        ///
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("SIGN UP");
         db = new SQLiteHelper(this);
         lastname= (EditText)findViewById(R.id.lastname);
         email= (EditText)findViewById(R.id.email);
+        email.setText(getIntent().getStringExtra("email"));
         rollno=(EditText)findViewById(R.id.rollno);
         number= (EditText)findViewById(R.id.number);
         firebase=FirebaseDatabase.getInstance().getReference("CSI Members");
         firebaserole= FirebaseDatabase.getInstance().getReference("Roles");
         neareststation=(EditText)findViewById(R.id.neareststation);
+        division = (EditText) findViewById(R.id.division);
+        year = (Spinner) findViewById(R.id.year);
         team1=(Spinner)findViewById(R.id.team1);
         team2=(Spinner)findViewById(R.id.team2);
         team3=(Spinner)findViewById(R.id.team3);
         submit=(Button)findViewById(R.id.submit);
+        ArrayAdapter<String> years=new ArrayAdapter<String>(HomeActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.year));
+        years.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        year.setAdapter(years);
         ArrayAdapter<String> teams=new ArrayAdapter<String>(HomeActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.teams));
         teams.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         team1.setAdapter(teams);
         team2.setAdapter(teams);
         team3.setAdapter(teams);
         HashMap<String,String> users=db.getAllValues();
+        email.setEnabled(false);
+        team1.setSelection(1);
+        team2.setSelection(2);
+        team3.setSelection(3);
+        Division = division.getText();
+        year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Year = year.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-       ////heree put it
+            }
+
+        });
         team1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 preference1=team1.getItemAtPosition(position).toString();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -111,20 +135,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        email.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(email.getText().toString().isEmpty())
-                    email.setText("@gmail.com");
-
-                return false;
-            }
-        });
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              int length=email.getText().toString().length();
+                int length=email.getText().toString().length();
 
                 if(firstname.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || email.getText().toString().isEmpty() || number.getText().toString().isEmpty() || neareststation.getText().toString().isEmpty() || rollno.getText().toString().isEmpty())
                 {
@@ -137,6 +151,12 @@ public class HomeActivity extends AppCompatActivity {
                 else if(number.getText().toString().length()!=10)
                 {
                     Toast.makeText(HomeActivity.this,"Invalid Number:",Toast.LENGTH_LONG).show();
+                }
+                else if(division.getText().toString()==""){
+                    Toast.makeText(HomeActivity.this,"Enter Division",Toast.LENGTH_LONG).show();
+                }
+                else if(Year == ""){
+                    Toast.makeText(HomeActivity.this,"Select Year",Toast.LENGTH_LONG).show();
                 }
                 else if(rollno.getText().toString().length()!=8)
                 {
@@ -180,60 +200,81 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Model model=new Model();
-                model.setValue(firstname.getText().toString()+" "+lastname.getText().toString(),email.getText().toString(),number.getText().toString(),neareststation.getText().toString(),rollno.getText().toString().toUpperCase(),preference1,preference2,preference3);
-                boolean result=true;
-                if(!memlist.isEmpty())
-                {for(int i=0;i<memlist.size();i++)
+                model.setValue(firstname.getText().toString().replaceAll(" ","").toLowerCase()+" "+lastname.getText().toString().replaceAll(" ","").toLowerCase(),
+                        email.getText().toString(),number.getText().toString()+Year+" "+division.getText().toString().replaceAll(" ",""),neareststation.getText().toString(),
+                        rollno.getText().toString().toUpperCase(),preference1,preference2,preference3);
+
+                boolean result=isConnected(HomeActivity.this);
+
+                if(!rollnolist.isEmpty())
+                {for(int i=0;i<rollnolist.size();i++)
                 {
-                    if(model.getRollno().matches(memlist.get(i).getRollno()))
+                    if(model.getRollno().matches(rollnolist.get(i)))
                     {
                         Toast.makeText(HomeActivity.this,"This Entry Already Exists!",Toast.LENGTH_LONG).show();
                         alertDialog.dismiss();
                         result=false;
                     }
                 }}
-                if(result)
+                if(!result)
                 {
-
+                    Toast.makeText(HomeActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                }
+                else if(rolelist.isEmpty())
+                {
+                    Toast.makeText(HomeActivity.this, "Connecting To Cloud! Please Wait...", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                }
+                else if(result)
+                {
                     for(int i=0;i<rolelist.size();i++) {
                         if (model.getRollno().matches(rolelist.get(i).getRollno())) {
-
                             model.setPriority(rolelist.get(i).getPriority());
-                            Toast.makeText(HomeActivity.this,"You are a committee member.",Toast.LENGTH_SHORT).show();
+                            ///////////
+                            switch(Integer.parseInt(model.getPriority())){
+                                case(2):
+                                    model.setPreference1(team1.getItemAtPosition(1).toString());
+                                    break;
+                                case(3):
+                                    model.setPreference1(team1.getItemAtPosition(2).toString());
+                                    break;
+                                case(4):
+                                    model.setPreference1(team1.getItemAtPosition(3).toString());
+                                    break;
+                                case(5):
+                                    model.setPreference1(team1.getItemAtPosition(4).toString());
+                                    break;
+                            }
+                            ////////////////
+                            Toast.makeText(HomeActivity.this, "You are a committee member.", Toast.LENGTH_SHORT).show();
                         }
                     }
 
-                    db.addInfo(model.getCurrenttask(), model.getName(),model.getEmail(),
-                            model.getNumber(),model.getNeareststation(),model.getNumberoftasks(),
-                            model.getPreference1(),model.getPreference2(),model.getPreference3(),
-                            model.getPriority(),model.getRollno());
                     String Id= firebase.push().getKey();
                     firebase.child(Id).setValue(model);
-                    memlist.clear();
+                    if(db.getAllValues().isEmpty()) {
+                        db.addInfo(model.getCurrenttask(), model.getName(), model.getEmail(),
+                                model.getNumber(), model.getNeareststation(), model.getTeamtask(),
+                                model.getPreference1(), model.getPreference2(), model.getPreference3(),
+                                model.getPriority(), model.getRollno(), Id);
+                    }
+                    Intent intent;
+                    if (model.getPriority().matches("0")) {
+                        intent = new Intent(HomeActivity.this, Members.class);
+                    }
+                    else if(model.getPriority().matches("1")){
+                        intent = new Intent(HomeActivity.this,CoreActivity.class);
+                    }
+                    else {
+                        intent = new Intent(HomeActivity.this, JcActivity.class);
+                    }
+                    firebase.removeEventListener(ve);
+                    startActivity(intent);
+                    rollnolist.clear();
                     rolelist.clear();
-                    if(model.getPriority().matches("1"))
-                    {
-                        ////put intent to core member activity
-                        //Intent intent= new Intent(HomeActivity.this,CoreActivity.class);
-                        //startActivity(intent);
-
-                    }
-                    else if(model.getPriority().matches("2"))
-                    {
-                        ///put intent to jc activity
-                        Intent intent= new Intent(HomeActivity.this,JcActivity.class);
-                        startActivity(intent);
-                    }
-                    else
-                    {
-                        //put intent to intent to normal member activity
-                        Intent intent =new Intent(HomeActivity.this,Members.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                    Toast.makeText(HomeActivity.this,"DATA ENTRY SUCCESSFUL, WELCOME!",Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
-
+                    finish();
                 }
             }
         });
@@ -241,20 +282,19 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-        firebase.addValueEventListener(new ValueEventListener() {
+        ve=firebase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                memlist.clear();
+                rollnolist.clear();
                 for(DataSnapshot fire: dataSnapshot.getChildren())
                 {
-                    Model model= fire.getValue(Model.class);
-                    memlist.add(model);
+                    rollnolist.add( fire.getValue(Model.class).getRollno());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(HomeActivity.this,databaseError.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -278,8 +318,35 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    public boolean isConnected(Context context)
+    {
 
+        ConnectivityManager cm= (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo= cm.getActiveNetworkInfo();
+        if(netinfo!=null && netinfo.isConnectedOrConnecting())
+        {
+            NetworkInfo wifi= cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            NetworkInfo mobile=cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
+            if((mobile!=null && mobile.isConnectedOrConnecting())|| (wifi!=null && wifi.isConnectedOrConnecting()))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+    //////////////////
+
+    @Override
+    public void onBackPressed() {
+        rollnolist.clear();
+        rolelist.clear();
+        firebase.removeEventListener(ve);
+        super.onBackPressed();
+    }
 }
 
 
@@ -311,26 +378,6 @@ Intent intent = new Intent(Intent.ACTION_SEND);
 
  //////////////////////////////////////
 
-  else if(!users.isEmpty())
-        {
-            Toast.makeText(HomeActivity.this,"There is a current User!",Toast.LENGTH_LONG).show();
-            if(users.get("priority").matches("1"))
-            {
-                //Intent intent= new Intent(HomeActivity.this,CoreActivity.class);
-                //startActivity(intent);
 
-            }
-            else if(users.get("priority").matches("2"))
-            {
-                Intent intent= new Intent(HomeActivity.this,JcActivity.class);
-                startActivity(intent);
-            }
-            else
-            {
-
-                Intent intent =new Intent(HomeActivity.this,Members.class);
-                startActivity(intent);
-            }
-        }
 
 */
